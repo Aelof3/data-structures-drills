@@ -178,7 +178,7 @@ function getOutOfMaze(maze, current_pos=[0,0], visited=[], path=''){ // current_
     // check top, right, bottom, left for open unvisited spot
     if (posRight !== posX) {
         const rightPos = [posY,posRight]
-        if (visited.indexOf(rightPos) === -1) {
+        if (visited.findIndex(a => a[0] === rightPos[0] && a[1] === rightPos[1]) === -1) {
             if (maze[rightPos[0]][rightPos[1]] === " " || maze[rightPos[0]][rightPos[1]] === "e"){
                 path += 'R';
                 return getOutOfMaze(maze, rightPos, visited, path)
@@ -187,7 +187,7 @@ function getOutOfMaze(maze, current_pos=[0,0], visited=[], path=''){ // current_
     }
     if (posBot !== posY) {
         const botPos = [posBot,posX]
-        if (visited.indexOf(botPos) === -1) {
+        if (visited.findIndex(a => a[0] === botPos[0] && a[1] === botPos[1]) === -1) {
             if (maze[botPos[0]][botPos[1]] === " " || maze[botPos[0]][botPos[1]] === "e"){
                 path += 'D';
                 return getOutOfMaze(maze, botPos, visited, path)
@@ -196,7 +196,7 @@ function getOutOfMaze(maze, current_pos=[0,0], visited=[], path=''){ // current_
     }
     if (posLeft !== posX) {
         const leftPos = [posY,posLeft]
-        if (visited.indexOf(leftPos) === -1) {
+        if (visited.findIndex(a => a[0] === leftPos[0] && a[1] === leftPos[1]) === -1) {
             if (maze[leftPos[0]][leftPos[1]] === " " || maze[leftPos[0]][leftPos[1]] === "e"){
                 path += 'L';
                 return getOutOfMaze(maze, leftPos, visited, path)
@@ -205,7 +205,7 @@ function getOutOfMaze(maze, current_pos=[0,0], visited=[], path=''){ // current_
     }
     if (posTop !== posY) {
         const topPos = [posTop,posX]
-        if (visited.indexOf(topPos) === -1) {
+        if (visited.findIndex(a => a[0] === topPos[0] && a[1] === topPos[1]) === -1) {
             if (maze[topPos[0]][topPos[1]] === " " || maze[topPos[0]][topPos[1]] === "e"){
                 path += 'T';
                 return getOutOfMaze(maze, topPos, visited, path)
@@ -271,13 +271,13 @@ function getPathsOutOfMaze(maze, current_pos=[0,0], visited=[], path='Path to th
         ['L','D','R','T'],
         ['D','R','T','L']
     ]
-    console.log("ORDER:",orders[order])
+    //console.log("ORDER:",orders[order])
     // maze[Y][X]
     const posY = current_pos[0];
     const posX = current_pos[1];
     
     if (maze[posY][posX] === 'e') {
-        pathlist.push([orders[order],path])
+        if (pathlist.findIndex(p => p[0] === path) === -1) pathlist.push([path])
         let neworder = order + 1
         if (order < orders.length - 1) {
             //console.log('reached end - new order', path)
@@ -300,7 +300,7 @@ function getPathsOutOfMaze(maze, current_pos=[0,0], visited=[], path='Path to th
     const posTop = (posY - 1 > 0) ? posY - 1 : 0;
     const posRight = (posX + 1 < maze[0].length) ? posX + 1 : posX;
     const posBot = (posY + 1 < maze.length) ? posY + 1 : posY;
-    const posLeft = (posX - 1 > 0) ? posX - 1 : posX;
+    const posLeft = (posX - 1 > 0) ? posX - 1 : 0;
 
     // add current position to visited
     visited.push(current_pos);
@@ -314,7 +314,7 @@ function getPathsOutOfMaze(maze, current_pos=[0,0], visited=[], path='Path to th
         R: () => {
             if (posRight !== posX) {
                 const rightPos = [posY,posRight]
-                if (visited.indexOf(rightPos) === -1) {
+                if (visited.findIndex(a => a[0] === rightPos[0] && a[1] === rightPos[1]) === -1) {
                     if (maze[rightPos[0]][rightPos[1]] === " " || maze[rightPos[0]][rightPos[1]] === "e"){
                         path += 'R';
                         return [true,[maze, rightPos, visited, path, order, default_maze, pathlist]]
@@ -325,7 +325,7 @@ function getPathsOutOfMaze(maze, current_pos=[0,0], visited=[], path='Path to th
         D: () => {
             if (posBot !== posY) {
                 const botPos = [posBot,posX]
-                if (visited.indexOf(botPos) === -1) {
+                if (visited.findIndex(a => a[0] === botPos[0] && a[1] === botPos[1]) === -1) {
                     if (maze[botPos[0]][botPos[1]] === " " || maze[botPos[0]][botPos[1]] === "e"){
                         path += 'D';
                         return [true,[maze, botPos, visited, path, order, default_maze, pathlist]]
@@ -336,7 +336,7 @@ function getPathsOutOfMaze(maze, current_pos=[0,0], visited=[], path='Path to th
         L: () => {
             if (posLeft !== posX) {
                 const leftPos = [posY,posLeft]
-                if (visited.indexOf(leftPos) === -1) {
+                if (visited.findIndex(a => a[0] === leftPos[0] && a[1] === leftPos[1]) === -1) {
                     if (maze[leftPos[0]][leftPos[1]] === " " || maze[leftPos[0]][leftPos[1]] === "e"){
                         path += 'L';
                         return [true,[maze, leftPos, visited, path, order, default_maze, pathlist]]
@@ -347,7 +347,7 @@ function getPathsOutOfMaze(maze, current_pos=[0,0], visited=[], path='Path to th
         T: () => {
             if (posTop !== posY) {
                 const topPos = [posTop,posX]
-                if (visited.indexOf(topPos) === -1) {
+                if (visited.findIndex(a => a[0] === topPos[0] && a[1] === topPos[1]) === -1) {
                     if (maze[topPos[0]][topPos[1]] === " " || maze[topPos[0]][topPos[1]] === "e"){
                         path += 'T';
                         return [true,[maze, topPos, visited, path, order, default_maze, pathlist]]
@@ -377,7 +377,7 @@ function getPathsOutOfMaze(maze, current_pos=[0,0], visited=[], path='Path to th
     }
 
     //console.log(maze, current_pos, visited, path, order, pathlist)
-    let neworder = order + 1
+    let neworder = order + 1;
     return getPathsOutOfMaze(fresh_maze,[0,0],[],'Path to the exit: ',neworder,default_maze,pathlist);
 }
 
