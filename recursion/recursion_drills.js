@@ -413,6 +413,7 @@ console.log(getPathsOutOfMaze(maze2))
 
 function getAnagrams(word){
     // yolo
+    
 }
 
 
